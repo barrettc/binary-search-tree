@@ -1,0 +1,78 @@
+/* global describe, it */
+
+'use strict'
+
+const chai = require('chai')
+chai.use(require('dirty-chai'))
+const expect = chai.expect
+const BinarySearchTree = require('../main/BinarySearchTree')
+
+describe('tests for BinarySearchTree', function () {
+  it('should create a valid BST', function () {
+    const bst = new BinarySearchTree([8, 3, 10, 1, 6, 14, 4, 7, 13])
+    expect(bst.root.value).to.equal(8)
+    expect(bst.root.left.value).to.equal(3)
+    expect(bst.root.right.value).to.equal(10)
+    expect(bst.root.right.right.value).to.equal(14)
+    expect(bst.root.right.right.left.value).to.equal(13)
+    expect(bst.root.left.left.value).to.equal(1)
+    expect(bst.root.left.right.value).to.equal(6)
+    expect(bst.root.left.right.left.value).to.equal(4)
+    expect(bst.root.left.right.right.value).to.equal(7)
+  })
+  it('should create a valid BST ignoring a duplicate', function () {
+    const bst = new BinarySearchTree([8, 3, 10, 10, 1, 6, 14, 4, 7, 13])
+    expect(bst.root.value).to.equal(8)
+    expect(bst.root.left.value).to.equal(3)
+    expect(bst.root.right.value).to.equal(10)
+    expect(bst.root.right.right.value).to.equal(14)
+    expect(bst.root.right.right.left.value).to.equal(13)
+    expect(bst.root.left.left.value).to.equal(1)
+    expect(bst.root.left.right.value).to.equal(6)
+    expect(bst.root.left.right.left.value).to.equal(4)
+    expect(bst.root.left.right.right.value).to.equal(7)
+  })
+  it('should create a valid BST using insert method', function () {
+    const bst = new BinarySearchTree()
+    bst.insert(8)
+    bst.insert(3)
+    bst.insert(10)
+    bst.insert(1)
+    bst.insert(6)
+    bst.insert(14)
+    bst.insert(4)
+    bst.insert(7)
+    bst.insert(13)
+    expect(bst.root.value).to.equal(8)
+    expect(bst.root.left.value).to.equal(3)
+    expect(bst.root.right.value).to.equal(10)
+    expect(bst.root.right.right.value).to.equal(14)
+    expect(bst.root.right.right.left.value).to.equal(13)
+    expect(bst.root.left.left.value).to.equal(1)
+    expect(bst.root.left.right.value).to.equal(6)
+    expect(bst.root.left.right.left.value).to.equal(4)
+    expect(bst.root.left.right.right.value).to.equal(7)
+  })
+  it('should search for a value that exists', function () {
+    const bst = new BinarySearchTree([8, 3, 10, 1, 6, 14, 4, 7, 13])
+    expect(bst.search(13)).to.equal(true)
+  })
+  it('should search for a value that does not exist', function () {
+    const bst = new BinarySearchTree([8, 3, 10, 1, 6, 14, 4, 7, 13])
+    expect(bst.search(99)).to.equal(false)
+  })
+  it('should delete a value', function () {
+    const bst = new BinarySearchTree([50, 30, 20, 40, 70, 60, 80])
+    bst.delete(50)
+    expect(bst.search(50)).to.equal(false)
+    bst.traverse()
+  })
+  it('should get deepest nodes and depth', function () {
+    const bst1 = new BinarySearchTree([12, 11, 90, 82, 7, 9])
+    expect(bst1.getDeepestNodesAndDepth()).to.deep.equal({ deepest: [9], depth: 3 })
+    const bst2 = new BinarySearchTree([26, 82, 16, 92, 33])
+    expect(bst2.getDeepestNodesAndDepth()).to.deep.equal({ deepest: [33, 92], depth: 2 })
+    const bst3 = new BinarySearchTree([8, 3, 10, 1, 6, 14, 4, 7, 13])
+    expect(bst3.getDeepestNodesAndDepth()).to.deep.equal({ deepest: [4, 7, 13], depth: 3 })
+  })
+})
